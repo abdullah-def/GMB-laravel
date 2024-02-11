@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\GoogleReview\MainApi;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +15,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// api/v1/check
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::group(['middleware' =>['auth:sanctum']], function () {
+        Route::post('/check', [MainApi::class, 'check']);
+        Route::post('/response', [MainApi::class, 'response']);
+        Route::post('/auto', [MainApi::class, 'auto']);
+    });
+
+
 });
+    
