@@ -62,13 +62,13 @@ class PlanController extends Controller
 
             $user->plan->plan_id = $plan->id;
             $user->plan->responses = $plan->response_num;
-            $user->plan->rules = $plan->rule;
+
             $user->plan->save();
         } else {
             $user->plan()->create([
                 'plan_id' => $plan->id,
                 'responses'  => $plan->response_num,
-                'rules'  => $plan->rule,
+
 
             ]);
         }
