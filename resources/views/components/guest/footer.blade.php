@@ -129,7 +129,7 @@
 
                 <a href="{{route('blog.post', ['post'=>$item->slug])}}"  class="group flex items-center gap-[22px]" >
                   <div class="overflow-hidden rounded h-48">
-                    <img  src="{{ $item->image}}" alt="blog" style=" max-height: 48px; max-width: 70px; "/>
+                    <img  src="{{$item->getThumbnailUrl()}}" alt="blog" style=" max-height: 48px; max-width: 70px; "/>
                   </div>
                   <span class="max-w-[180px] text-gray-7 text-base group-hover:text-white" >
 

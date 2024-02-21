@@ -12,8 +12,11 @@ class UserSubsciption extends Model
     protected $fillable = [
         'user_id',
         'plan_id',
+        'email',
+        'plan',
         'responses',
         'rules',
         'auto_automation',
+        'ended_at'
     ];
 }

@@ -93,9 +93,10 @@ class AuthenticatedSessionController extends Controller
             $create->avatar = $user->avatar;
             $create->google_id = $user->google_id;
             $create->email_verified_at = Carbon::now();
+            $create->role =  User::ROLE_DEFAULT;
             $create->save();
 
-            $create->assignRole('user');
+
             event(new Registered($create));
             Auth::login($create, true);
 

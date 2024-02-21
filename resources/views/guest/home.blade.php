@@ -783,7 +783,7 @@
             <div class="wow fadeInUp group mb-10" data-wow-delay=".1s">
                 <div class="mb-8 overflow-hidden rounded-[5px]">
                   <a href="{{route('blog.post', ['post'=>$item->slug])}}" class="block">
-                    <img src="{{ $item->image}}"alt="image" class="w-full transition group-hover:rotate-6 group-hover:scale-125" />
+                    <img src="{{$item->getThumbnailUrl()}}"alt="image" class="w-full transition group-hover:rotate-6 group-hover:scale-125" />
                   </a>
                 </div>
   
@@ -801,7 +801,7 @@
                       </a>
                     </h3>
                     <p class="max-w-[370px] text-base text-body-color">
-                    {{ \Illuminate\Support\Str::limit($item->introduction, 80, '...') }}
+                      {!! \Illuminate\Support\Str::limit( $item->body, 80, '...') !!}
                     </p>
                     
                 </div>

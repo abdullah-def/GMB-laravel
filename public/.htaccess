@@ -4,6 +4,10 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteCond %{HTTPS} off [OR]
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://ziko.ai%{REQUEST_URI} [L,R=301,NC]
+
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

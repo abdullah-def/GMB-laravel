@@ -62,12 +62,18 @@ class PlanController extends Controller
 
             $user->plan->plan_id = $plan->id;
             $user->plan->responses = $plan->response_num;
+            $user->plan->ended_at = now()->addMonth()->format('Y-m-d');
+            $user->plan->plan = $plan->name;
+            $user->plan->email = $user->email;
 
             $user->plan->save();
         } else {
             $user->plan()->create([
                 'plan_id' => $plan->id,
+                'plan' => $plan->name,
+                'email' => $user->email,
                 'responses'  => $plan->response_num,
+                'ended_at' => now()->addMonth()->format('Y-m-d'),
 
 
             ]);

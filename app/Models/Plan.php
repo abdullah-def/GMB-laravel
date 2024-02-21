@@ -9,6 +9,16 @@ class Plan extends Model
 {
     use HasFactory;
 
+    const Starter = 'Ziko AI Starter';
+    const Standard = 'Ziko AI Standard';
+    const Business = 'Ziko AI Business';
+    const PLANS = [
+        self::Starter => 'Ziko AI Starter',
+        self::Standard => 'Ziko AI Standard',
+        self::Business => 'Ziko AI Business',
+    ];
+    
+
     protected $fillable = [
         'name',
         'slug',

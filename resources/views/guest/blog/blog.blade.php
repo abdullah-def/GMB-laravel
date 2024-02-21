@@ -10,7 +10,7 @@
 @section('content')
 @include('components.guest.nav')
 
-
+    
     <div class="relative z-10 overflow-hidden pt-[120px] pb-[60px] md:pt-[130px] lg:pt-[160px] ">
         <div
         class="w-full h-px bg-gradient-to-r from-stroke/0 via-stroke  to-stroke/0 absolute left-0 bottom-0">
@@ -55,7 +55,8 @@
                 <div class="wow fadeInUp group mb-10" data-wow-delay=".1s">
                     <div class="mb-8 overflow-hidden rounded-[5px]">
                     <a href="{{route('blog.post', ['post'=>$item->slug])}}" class="block">
-                        <img src="{{ $item->image}}"alt="image" class="w-full transition group-hover:rotate-6 group-hover:scale-125" />
+                        <img src="{{$item->getThumbnailUrl()}}"alt="image" class="w-full transition group-hover:rotate-6 group-hover:scale-125" />
+                        {{-- {{ asset('storage/'. $item->image) }} --}}
                     </a>
                     </div>
     
@@ -73,7 +74,9 @@
                         </a>
                         </h3>
                         <p class="max-w-[370px] text-base text-body-color">
-                        {{ \Illuminate\Support\Str::limit($item->introduction, 80, '...') }}
+                            {{-- {{ \Illuminate\Support\Str::limit($item->body, 80, '...') }} --}}
+                        {!! \Illuminate\Support\Str::limit( $item->body, 80, '...') !!}
+                        
                         </p>
                         
                     </div>

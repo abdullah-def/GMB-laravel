@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ChatGpt\ChatGpt;
 use Illuminate\Http\Request;
 use App\Notifications\ReviewNotification;
 use Carbon;
+use App\Models\ReviewResponse;
+
 
 class MainApi extends Controller
 {
@@ -16,7 +18,7 @@ class MainApi extends Controller
     {   
         $user = $request->user();
         $statu = 'canceled';
-        if ($user ->stripe_session)
+        if ($user->stripe_session)
         {
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $status = $stripe->subscriptions->retrieve($user->stripe_session);
@@ -24,7 +26,18 @@ class MainApi extends Controller
                 $statu = 'active';
             }
             else {
-                $statu = $status->status;
+                $date_now = date("Y-m-d");
+                if ($user->plan->ended_at){
+                    if ($date_now < $user->plan->ended_at){
+
+                        $statu = 'active';
+                    }
+                    else{
+                        $statu = $status->status;
+                    }
+
+                }
+
             }
         }
 
@@ -64,6 +77,19 @@ class MainApi extends Controller
                 $statu = $status->status;
             }
         }
+
+        $date_now = date("Y-m-d");
+        if ($user->plan->ended_at){
+            if ($date_now < $user->plan->ended_at){
+
+                $statu = 'active';
+            }
+           
+
+        }
+
+
+
 
         $review = $request->review;
         $name = $request->name;

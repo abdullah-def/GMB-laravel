@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Plan;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Carbon\Carbon;
 
 class PlanSeeder extends Seeder
 {
@@ -64,6 +68,24 @@ class PlanSeeder extends Seeder
         foreach ($plans as $plan) {
             Plan::create($plan);
         }
+
+        $superuser = [
+            'name' => 'Chris',
+            'email' => 'admin@ziko.ai',
+            'password' => Hash::make('Sadiesassine12'),
+            'avatar' => '/assets/img/User_01.jpg',
+            'email_verified_at' => Carbon::now(),
+            'role' => User::ROLE_ADMIN,
+        ];
+        
+        $user = User::create($superuser);
+
+        event(new Registered($user));
+        $user->sendEmailVerificationNotification();
+
+
+       
+
     }
 }
 // price_1Ogb8r2RLyhAaiYTjmtYRERN

@@ -21,7 +21,6 @@ class Post extends Model
         'slug',
         'image',
         'body',
-        'introduction',
         'published_at',
         'featured',
         'keywors',
@@ -117,7 +116,12 @@ class Post extends Model
 
 
 
+    public function getThumbnailUrl()
+    {
+        $isUrl = str_contains($this->image, 'http');
 
+        return ($isUrl) ? $this->image : Storage::disk('public')->url($this->image);
+    }
     // public function getThumbnailUrl()
     // {
     //     $isUrl = str_contains($this->image, 'http');

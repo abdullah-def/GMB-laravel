@@ -2,6 +2,7 @@
 
 @section('meta')
 <meta name="description" content="{{$post->meta_description}}">
+<meta name="keywords" content="{{$post->keywors}}">
 @endsection
 
 
@@ -40,14 +41,18 @@
       </div>
     </div>
 </div>
-
+<style>
+    figcaption {
+        display: none;
+    }
+</style>
 <section class="pt-10 pb-10 lg:pt-[10px] lg:pb-20 ">
     <div class="container">
         <div class="-mx-4 flex flex-wrap justify-center">
           <div class="w-full px-4">
             <div class="wow fadeInUp relative z-20 mb-[50px] h-[300px] overflow-hidden rounded-[5px] md:h-[400px] lg:h-[500px]" data-wow-delay=".1s ">
                 
-                    <img src="{{ $post->image }}" alt="image"
+                    <img src="{{$post->getThumbnailUrl()}}" alt="image"
                     class="h-full w-full object-cover object-center" />
                 
                 <div class="absolute top-0 left-0 z-10 flex h-full w-full items-end bg-gradient-to-t from-dark-700 to-transparent">
@@ -82,7 +87,7 @@
 
                     </div>
 
-                    <div class="wow fadeInUp content">{{$post->body}}</div>
+                    <div class="wow fadeInUp content">{!! $post->body !!}</div>
 
                     <div style=" padding-top: 30px; ">
                        
@@ -175,7 +180,7 @@
                                     data-wow-delay=".1s
                                         ">
                                         <div class="mr-5  w-full max-w-[80px] overflow-hidden ">
-                                            <img src="{{ $item->image}}" alt="image" class="w-full" />
+                                            <img src="{{$item->getThumbnailUrl()}}" alt="image" class="w-full" />
                                         </div>
                                         <div class="w-full">
                                             <h4>

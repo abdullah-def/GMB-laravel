@@ -67,11 +67,15 @@ class PostBlogController extends Controller
     public function category($category, Request $request)
     {
 
+        $posts_footer = Post::published()
+        ->latest('published_at')
+        ->featured()
+        ->with('author', 'categories')->limit(2)->get();
+
         $posts = Post::published()
             ->when($category, function ($query, $category) {
                 $query->withCategory($category);
             })
-
             ->featured()
             ->latest('published_at')
             ->paginate(15);
@@ -82,6 +86,9 @@ class PostBlogController extends Controller
                 [
                     'title' => config('app.name') . ' - category',
                     'posts' => $posts,
+                    'posts_footer' => $posts_footer,
+                    'category' => $category,
+                    
                 ]
             );
         } else {
@@ -91,6 +98,11 @@ class PostBlogController extends Controller
 
     public function tag($tag, Request $request)
     {
+        $posts_footer = Post::published()
+        ->latest('published_at')
+        ->featured()
+        ->with('author', 'categories')->limit(2)->get();
+
         $posts = Post::published()
             ->when($tag, function ($query, $tag) {
                 $query->withTag($tag);
@@ -111,6 +123,7 @@ class PostBlogController extends Controller
                     'title' => config('app.name') . ' - tag',
                     'posts' => $posts,
                     'tag' => $tag_name,
+                    'posts_footer' => $posts_footer,
                 ]
             );
         } else {

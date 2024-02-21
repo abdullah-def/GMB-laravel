@@ -19,9 +19,12 @@ return new class extends Migration
 
             $table->foreignIdFor(User::class,'user_id')->uniqid();
             $table->foreignIdFor(plan::class);
+            $table->string('email');
+            $table->string('plan');
             $table->integer('responses');
             $table->integer('rules')->default(0);
             $table->boolean('auto_automation')->default(false);
+            $table->date('ended_at')->nullable();
             $table->timestamps();
         });
     }
