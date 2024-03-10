@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components\TextEntry;
+use Illuminate\Database\Eloquent\Collection;
 
 class TicketResource extends Resource
 {
@@ -42,6 +43,9 @@ class TicketResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->sortable()
                 ->searchable(),
+                Tables\Columns\IconColumn::make('read')->sortable()->searchable()
+                ->label('Status')
+                ->boolean(),
                 
             ])
             ->filters([
@@ -54,8 +58,21 @@ class TicketResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+               
+                    Tables\Actions\BulkAction::make('Make it complete')->action(function (Collection $records) {
+                        // 
+                        $records->each(function ($record){
+                            // 
+                            $record->read = 1;
+                            $record->save();
+                        });
+                    })
+                    ->deselectRecordsAfterCompletion()
+
                 ]),
+                
             ]);
+
     }
     protected function getDefaultTableSortDirection(): ?string
     {

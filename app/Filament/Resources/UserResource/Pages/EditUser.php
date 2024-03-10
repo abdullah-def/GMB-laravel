@@ -18,15 +18,15 @@ class EditUser extends EditRecord
         ];
     }
     protected function mutateFormDataBeforeSave(array $data): array
-{
-    $role = $data['role'];
-   
+    {
+        $role = $data['role'];
+    
 
-    $user = User::where(['email' => $data['email']])->first();
+        $user = User::where(['email' => $data['email']])->first();
 
-    $user->role = $role;
+        $user->role = $role;
 
 
-    return $data;
-}
+        return $data;
+    }
 }

@@ -4,32 +4,50 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use App\Notifications\ReviewNotification;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+
+        
+
         $response = $request->user()
         ->reviewResponse()
         ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        ->paginate(25);
+        
+        if($request->user()->stripe_session){
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $status = $stripe->subscriptions->retrieve($request->user()->stripe_session);
+            $auto_renew = $status->cancel_at_period_end;
+        }
+        else{
+            $auto_renew = true;
+        }
+
 
 
         $data = [
             'title' => config('app.name') . ' - Reviews',
-            'response' => $response
+            'response' => $response,
+            'auto_renew' => $auto_renew
         ];
+
         return view('user.home', $data);
     }
 
     public function documentation(Request $request)
     {
         $data = [
-            'title' => config('app.name') . ' - Notifications',
+            'title' => config('app.name') . ' - Documentation',
         ];
         return view('user.documentation', $data);
     }
@@ -42,7 +60,16 @@ class DashboardController extends Controller
         ];
         return view('user.app.accounts', $data);
     }
+    public function download(Request $request) {
+       
+        $data = [
+            'title' => config('app.name') . ' - Documentation',
+        ];
 
+        
+        return Storage::download('files/ziko-extension.zip');
+        
+      }
 
     public function settings(Request $request)
     {
@@ -136,9 +163,22 @@ class DashboardController extends Controller
 
 
 
+        if($request->user()->stripe_session){
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $status = $stripe->subscriptions->retrieve($request->user()->stripe_session);
+            $auto_renew = $status->cancel_at_period_end;
+        }
+        else{
+            $auto_renew = true;
+        }
+
+
+
         $data = [
             'title' => config('app.name') . ' - Settings',
             'langs' => $lang ,
+            'auto_renew' => $auto_renew
           
 
         ];
@@ -281,7 +321,7 @@ class DashboardController extends Controller
         return redirect()->route('settings' , $data);
         
     }
-
+    // redirect()->back()
     public function business(Request $request)
     {
         $user = $request->user();
@@ -393,7 +433,7 @@ class DashboardController extends Controller
             
         ];
         smilify('success', 'Settings have been modified');
-        return redirect()->route('settings' , $data);
+        return redirect()->back();
         
 
     }
@@ -514,6 +554,227 @@ class DashboardController extends Controller
         
     }
 
+    public function autorenew(Request $request)
+    {
+        // 
+
+        if($request->user()->stripe_session){
+
+            $user = $request->user();
+            $order = $request->auto;
+            if ($order != null){
+                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+                $stripe->subscriptions->update($user->stripe_session, ['cancel_at_period_end' => false]);
+
+            }
+            else{
+                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+                $stripe->subscriptions->update($user->stripe_session, ['cancel_at_period_end' => true]);
+
+            }
+
+
+            $lang =[
+                'Albanian, Albania',
+                'Arabic, Arab World',
+                'Armenian, Armenia',
+                'Awadhi, India',
+                'Azerbaijani, Azerbaijan',
+                'Bashkir, Russia',
+                'Basque, Spain',
+                'Belarusian, Belarus',
+                'Bengali, Bangladesh',
+                'Bhojpuri, India',
+                'Bosnian, Bosnia and Herzegovina',
+                'Brazilian Portuguese, Brazil',
+                'Bulgarian, Bulgaria',
+                'Cantonese (Yue), China',
+                'Catalan, Spain',
+                'Chhattisgarhi, India',
+                'Chinese, China',
+                'Croatian, Croatia',
+                'Czech, Czech Republic',
+                'Danish, Denmark',
+                'Dogri, India',
+                'Dutch, Netherlands',
+                'English, United Kingdom',
+                'Estonian, Estonia',
+                'Faroese, Faroe Islands',
+                'Finnish, Finland',
+                'French, France',
+                'Galician, Spain',
+                'Georgian, Georgia',
+                'German, Germany',
+                'Greek, Greece',
+                'Gujarati, India',
+                'Haryanvi, India',
+                'Hindi, India',
+                'Hungarian, Hungary',
+                'Indonesian, Indonesia',
+                'Irish, Ireland',
+                'Italian, Italy',
+                'Japanese, Japan',
+                'Javanese, Indonesia',
+                'Kannada, India',
+                'Kashmiri, India',
+                'Kazakh, Kazakhstan',
+                'Konkani, India',
+                'Korean, South Korea',
+                'Kyrgyz, Kyrgyzstan',
+                'Latvian, Latvia',
+                'Lithuanian, Lithuania',
+                'Macedonian, North Macedonia',
+                'Maithili, India',
+                'Malay, Malaysia',
+                'Maltese, Malta',
+                'Mandarin, China',
+                'Mandarin Chinese, China',
+                'Marathi, India',
+                'Marwari, India',
+                'Min Nan, China',
+                'Moldovan, Moldova',
+                'Mongolian, Mongolia',
+                'Montenegrin, Montenegro',
+                'Nepali, Nepal',
+                'Norwegian, Norway',
+                'Oriya, India',
+                'Pashto, Afghanistan',
+                'Persian (Farsi), Iran',
+                'Polish, Poland',
+                'Portuguese, Portugal',
+                'Punjabi, India',
+                'Rajasthani, India',
+                'Romanian, Romania',
+                'Russian, Russia',
+                'Sanskrit, India',
+                'Santali, India',
+                'Serbian, Serbia',
+                'Sindhi, Pakistan',
+                'Sinhala, Sri Lanka',
+                'Slovak, Slovakia',
+                'Slovene, Slovenia',
+                'Slovenian, Slovenia',
+                'Ukrainian, Ukraine',
+                'Urdu, Pakistan',
+                'Uzbek, Uzbekistan',
+                'Vietnamese, Vietnam',
+                'Welsh, Wales',
+                'Wu, China',    
+            ];
+
+
+            $data = [
+                'title' => config('app.name') . ' - Settings',
+                'langs' => $lang ,
+                
+            ];
+
+            smilify('success', 'Settings have been modified');
+            return redirect()->route('settings' , $data);
+        }
+        else{
+            // error
+            $lang =[
+                'Albanian, Albania',
+                'Arabic, Arab World',
+                'Armenian, Armenia',
+                'Awadhi, India',
+                'Azerbaijani, Azerbaijan',
+                'Bashkir, Russia',
+                'Basque, Spain',
+                'Belarusian, Belarus',
+                'Bengali, Bangladesh',
+                'Bhojpuri, India',
+                'Bosnian, Bosnia and Herzegovina',
+                'Brazilian Portuguese, Brazil',
+                'Bulgarian, Bulgaria',
+                'Cantonese (Yue), China',
+                'Catalan, Spain',
+                'Chhattisgarhi, India',
+                'Chinese, China',
+                'Croatian, Croatia',
+                'Czech, Czech Republic',
+                'Danish, Denmark',
+                'Dogri, India',
+                'Dutch, Netherlands',
+                'English, United Kingdom',
+                'Estonian, Estonia',
+                'Faroese, Faroe Islands',
+                'Finnish, Finland',
+                'French, France',
+                'Galician, Spain',
+                'Georgian, Georgia',
+                'German, Germany',
+                'Greek, Greece',
+                'Gujarati, India',
+                'Haryanvi, India',
+                'Hindi, India',
+                'Hungarian, Hungary',
+                'Indonesian, Indonesia',
+                'Irish, Ireland',
+                'Italian, Italy',
+                'Japanese, Japan',
+                'Javanese, Indonesia',
+                'Kannada, India',
+                'Kashmiri, India',
+                'Kazakh, Kazakhstan',
+                'Konkani, India',
+                'Korean, South Korea',
+                'Kyrgyz, Kyrgyzstan',
+                'Latvian, Latvia',
+                'Lithuanian, Lithuania',
+                'Macedonian, North Macedonia',
+                'Maithili, India',
+                'Malay, Malaysia',
+                'Maltese, Malta',
+                'Mandarin, China',
+                'Mandarin Chinese, China',
+                'Marathi, India',
+                'Marwari, India',
+                'Min Nan, China',
+                'Moldovan, Moldova',
+                'Mongolian, Mongolia',
+                'Montenegrin, Montenegro',
+                'Nepali, Nepal',
+                'Norwegian, Norway',
+                'Oriya, India',
+                'Pashto, Afghanistan',
+                'Persian (Farsi), Iran',
+                'Polish, Poland',
+                'Portuguese, Portugal',
+                'Punjabi, India',
+                'Rajasthani, India',
+                'Romanian, Romania',
+                'Russian, Russia',
+                'Sanskrit, India',
+                'Santali, India',
+                'Serbian, Serbia',
+                'Sindhi, Pakistan',
+                'Sinhala, Sri Lanka',
+                'Slovak, Slovakia',
+                'Slovene, Slovenia',
+                'Slovenian, Slovenia',
+                'Ukrainian, Ukraine',
+                'Urdu, Pakistan',
+                'Uzbek, Uzbekistan',
+                'Vietnamese, Vietnam',
+                'Welsh, Wales',
+                'Wu, China',    
+            ];
+
+
+            $data = [
+                'title' => config('app.name') . ' - Settings',
+                'langs' => $lang ,
+                
+            ];
+
+            smilify('error', "You don't have a Stripe id");
+            return redirect()->route('settings' , $data);
+        }
+        
+
+    }
 
     public function makeAllRead(Request $request)
     {

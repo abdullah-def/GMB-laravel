@@ -29,7 +29,7 @@ return new class extends Migration
             $table->boolean('one_star')->default(false);
 
             $table->boolean('email_response')->default(false);
-            $table->boolean('email_news')->default(false);
+            $table->boolean('email_news')->default(true);
             $table->boolean('same_language')->default(true);
             $table->integer('language_choise')->nullable();
 

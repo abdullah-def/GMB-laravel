@@ -6,7 +6,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
   <!-- ====== Banner Section Start -->
   
@@ -143,13 +143,7 @@
                 </p>
                 
 
-                <p class="wow fadeInUp mb-8 text-base text-body-color " data-wow-delay=".1s">
-                  <strong>Ziko.ai: Your AI-powered partner for Google Business review automation.
-                  </strong>
-
-
-                  <br>
-                </p>
+               
                 
               </div>
             </div>

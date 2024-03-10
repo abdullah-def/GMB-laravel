@@ -6,14 +6,19 @@
 @include('components.user.nav')
 
 
+@if (!auth()->user()->settings->business_name)
+            
+  @include('components.user.required')
+
+@endif
 
 <style type="text/css"> .notify{ z-index: 1000000; margin-top: 30px; } </style>
 
 <div class="content">
 
-    <div class="mb-9">
-        <div class="row g-6 ">
-                <div class="col-12 col-xl-4">
+    <div class="mb-9" style=" display: flex; justify-content: center; ">
+        <div class="test">
+                <div class="">
                     <form method="POST" action="{{route('ruls')}}">
                         @csrf
                         <div class="card mb-5">
@@ -21,7 +26,7 @@
                             <div class="card-header hover-actions-trigger position-relative mb-6" style="min-height: 130px; ">
                                 <div class="bg-holder rounded-top" style="background-image: linear-gradient(0deg, #000000 -3%, rgba(0, 0, 0, 0) 83%), url(/assets/img/generic/59.png)">
                                     
-                                </div><input class="d-none" id="upload-settings-porfile-picture" type="file">
+                                </div>
                                 <label class="avatar avatar-4xl  feed-avatar-profile cursor-pointer" for="upload-settings-porfile-picture">
                                         <img class="rounded-circle img-thumbnail bg-white shadow-sm" src="{{auth()->user()->avatar}}" width="200" alt="">
                                 </label>
@@ -56,15 +61,15 @@
 
                         <div class="border-bottom border-dashed pb-3 mb-4">
                             <h5 class="text-900 mb-3">Notifications Settings</h5>
-                            <div class="form-check"><input class="form-check-input" @if (auth()->user()->settings->email_response) checked  @endif id="respondemail" type="checkbox" name="respondemail"><label class="form-check-label fs-0" for="respondemail">Receive an email when we respond to a review</label></div>
-                            <div class="form-check"><input class="form-check-input" @if (auth()->user()->settings->email_news) checked  @endif id="newemail" type="checkbox" name="newemail"><label class="form-check-label fs-0" for="newemail">Receive an email to know what's new</label></div>
+                            <div class="form-check"><input class="form-check-input" @if (auth()->user()->settings->email_response) checked  @endif id="respondemail" type="checkbox" name="respondemail"><label class="form-check-label fs-0" for="respondemail">Receive an email when Ziko posted a response to your reviews.</label></div>
+                            <div class="form-check"><input class="form-check-input" @if (auth()->user()->settings->email_news) checked  @endif id="newemail" type="checkbox" name="newemail"><label class="form-check-label fs-0" for="newemail">Get email updates on what's new.</label></div>
                         </div>
 
                         <div class="mb-4">
 
-                            <div class="form-check"><input class="form-check-input" onclick="checkstate()" id="language"  type="checkbox" @if (auth()->user()->settings->same_language) checked  @endif name="language"><label class="form-check-label fs-0" for="language">Respond to the review in the same language</label></div>
+                            <div class="form-check"><input class="form-check-input" onclick="checkstate()" id="language"  type="checkbox" @if (auth()->user()->settings->same_language) checked  @endif name="language"><label class="form-check-label fs-0" for="language">Reply to reviews using the language of the reviewer's original submission.</label></div>
                             <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="lang" @if (auth()->user()->settings->same_language) disabled  @endif  name="lang">
-                                <option value="false" @if (auth()->user()->settings->same_language) selected  @endif >Choose one language to respond to all reviews</option>
+                                <option value="false" @if (auth()->user()->settings->same_language) selected  @endif >Set a default language for all review responses</option>
 
                                 @foreach ($langs as $item)
                                 <option value="{{ $loop->index }}" @if ( $loop->index == auth()->user()->settings->language_choise and  auth()->user()->settings->language_choise != null) selected  @endif >{{$item}}</option>
@@ -84,7 +89,7 @@
                     
                 </div>
 
-                <div class="col-12 col-xl-8 ">
+                <div class="">
                     
                         <div class=" border-300 mb-4">
                             <form method="POST" action="{{route('business')}}">
@@ -93,7 +98,7 @@
                                 <div class="mb-6">
 
                                     <h4 class="mb-2">Business Information</h4>
-                                    <h6 class="text-600 mb-4" style="max-width: 500px;">Please note that, this information will be used by artificial intelligence so that it is aware of the company’s activity and can give better responses</h6>
+                                    <p class=" lh-sm mb-0 mb-4" style="max-width: 500px;">Please note, this information will be used by artificial intelligence to better understand your company’s activities and provide more accurate responses.</h6>
                                     <div class="row g-3">
                                         <div class="col-12 col-sm-6">
                                             <div class="form-icon-container">
@@ -127,7 +132,7 @@
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-icon-container">
-                                                <div class="form-floating"><input class="form-control " @if (auth()->user()->settings->basic_product) value="{{auth()->user()->settings->basic_product}}" @endif id="lastName" type="text" placeholder="Last Name" name="BUSINESSPRODUCT"><label class="text-700 " for="lastName">BASIC PRODUCT</label></div>
+                                                <div class="form-floating"><input class="form-control " @if (auth()->user()->settings->basic_product) value="{{auth()->user()->settings->basic_product}}" @endif id="lastName" type="text" placeholder="Last Name" name="BUSINESSPRODUCT"><label class="text-700 " for="lastName">Main Product</label></div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,6 +199,42 @@
                                 
                                 </div>
                             </form>
+
+                            <form method="POST" id="subscription" action="{{route('autorenew')}}">
+                                @csrf
+                                <div class="mb-6">
+                                    <div class="row g-3">
+                                        <h4 class="mb-3">Subscription Management</h4>
+                                        <div>
+                                            <div class="mb-3">
+                                                <div class="form-icon-container">
+                                                    <div class="border-bottom border-dashed pb-3 mb-4">
+                            
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" @if (!$auto_renew) checked  @endif id="auto" type="checkbox"  name="auto"><label class="form-check-label fs-0" for="auto">Auto Renewal</label></div>
+                                                       
+                                                       
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        
+
+                                            
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="text-end mb-6">
+                                        <div>
+                                            <button class="btn btn-phoenix-primary">Save Information</button>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </form>
                             
                             
                         </div>
@@ -206,6 +247,17 @@
         </div>
     </div>
 
+
+    <footer class="footer position-absolute">
+        <div class="row g-0 justify-content-between align-items-center h-100">
+          <div class="col-12 col-sm-auto text-center">
+            <p class="mb-0 mt-2 mt-sm-0 text-900">© 2023-2024 Ziko AI - A brand of <a class="mx-1" href="https://onewaybakery.com.au/"> Oneway Lebanese Bakery</a></p>
+          </div>
+          <div class="col-12 col-sm-auto text-center">
+            <p class="mb-0 text-600">v1.0</p>
+          </div>
+        </div>
+      </footer>
 </div>
 
 

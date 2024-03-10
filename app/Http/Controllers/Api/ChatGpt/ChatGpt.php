@@ -48,10 +48,10 @@ class ChatGpt extends Controller
             $this->assistant .= 'Number of stars: '. $this->custemer_name . '.';
         }
         if($this->business_name){
-            $this->assistant .= 'My company name: '. $this->business_name . '.';
+            $this->assistant .= 'Business Name: '. $this->business_name . '.';
         }
         if($this->business_website){
-            $this->assistant .= "My company's website: ". $this->business_website . '.';
+            $this->assistant .= "Business website: ". $this->business_website . '.';
         }
         if($this->business_industry){
             $this->assistant .= "My company sector: ". $this->business_industry . '.';
@@ -167,8 +167,9 @@ class ChatGpt extends Controller
                     "model" => 'gpt-3.5-turbo-0125',
                     "messages" => [
                         [
+                            
                             "role" => "system",
-                            "content" => 'This is a customer review. Please respond to the review well and I will leave you some useful information in the assistant role'
+                            "content" => 'This is a customer review. I want you to respond to this review briefly and professionally in our name. Attached is the review you should respond to, the number of stars the customer left in the review (out of five stars max), the name or username of the customer, our business name and some information to help you.'
                         ],
                         [
                             "role" => "assistant",

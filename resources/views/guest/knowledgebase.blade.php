@@ -6,7 +6,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
 <div class="relative z-10 overflow-hidden pt-[120px] pb-[60px] md:pt-[130px] lg:pt-[160px] ">
     <div
@@ -114,9 +114,6 @@ Ziko.ai Knowledge Base: How Ziko Works</h1>
                     
                 </p>
 
-                <p class="wow fadeInUp mb-8 text-base text-body-color " data-wow-delay=".1s">
-                   <strong>We hope this knowledge base helps you get started with Ziko.ai and unlock the power of AI-powered Google Business review automation for your business!</strong> 
-                </p>
                 
               </div>
             </div>

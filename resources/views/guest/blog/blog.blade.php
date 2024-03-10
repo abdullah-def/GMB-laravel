@@ -8,7 +8,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
     
     <div class="relative z-10 overflow-hidden pt-[120px] pb-[60px] md:pt-[130px] lg:pt-[160px] ">

@@ -19,13 +19,15 @@ Route::get('/create_access_token', [DashboardController::class, 'create_access_t
 Route::middleware(['auth', 'verified', 'subscribed', 'access_token'])->group(function () {
 
     Route::get('/dashbord', [DashboardController::class, 'index'])->name('dashbord');
-    Route::get('/documentation', [DashboardController::class, 'documentation'])->name('notifications');
-
+    Route::get('/welcome', [DashboardController::class, 'documentation'])->name('notifications');
+    Route::get('/download', [DashboardController::class, 'download'])->name('download');
     Route::get('/accounts', [DashboardController::class, 'accounts'])->name('accounts');
     Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
+    Route::get('/settings/#subscription', [DashboardController::class, 'settings'])->name('settingssubscription');
     Route::post('/settings/ruls', [DashboardController::class, 'ruls'])->name('ruls');
     Route::post('/settings/business', [DashboardController::class, 'business'])->name('business');
     Route::post('/settings/personal', [DashboardController::class, 'personal'])->name('personal');
+    Route::post('/settings/autorenew', [DashboardController::class, 'autorenew'])->name('autorenew');
 
 
 

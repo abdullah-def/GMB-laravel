@@ -17,21 +17,35 @@ class SubscribtionValidate
     {
         // canceled
         // active
+        // trialing
 
         if ($request->user()->stripe_session) {
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $status = $stripe->subscriptions->retrieve($request->user()->stripe_session);
             // dd($status);
             // current_period_end
-            if ($status->status == 'active') {
+
+            if ($status->status == 'active' || $status->status == 'trialing') {
                 return $next($request);
-            } else {
-                $user = $request->user();
-                $user->subscribed = 0;
-                $user->save();
-                return redirect()->route('plans');
-            }
+            } 
         }
-        return redirect()->route('plans');
+        
+        else if ($request->user()->plan?->ended_at)
+        {
+            $date_now = date("Y-m-d");
+            if ($date_now < $request->user()->plan->ended_at){
+
+                return $next($request);
+            }
+
+        }
+
+        else {
+            $user = $request->user();
+            $user->subscribed = 0;
+            $user->save();
+            return redirect()->route('plans');
+        }
+        
     }
 }

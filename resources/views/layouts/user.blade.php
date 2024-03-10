@@ -44,7 +44,8 @@
 
     </head>
     <body>
-        
+
+
         @yield('content')
 
         <script src="/vendors/popper/popper.min.js"></script>
@@ -62,6 +63,9 @@
         <script src="/vendors/leaflet/leaflet.js"></script>
         <script src="/vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
         <script src="/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+        <script src="/vendors/choices/choices.min.js"></script>
+        <script src="/vendors/sortablejs/Sortable.min.js"></script>
+
         <!-- <script src="/assets/js/ecommerce-dashboard.js"></script> -->
 
         @yield('script')

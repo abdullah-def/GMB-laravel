@@ -44,7 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'password',
         'google_id', // Add 'google_id' to the fillable array.
         'avatar',
-        'role'
+        'role',
+        'trialing'
         
     ];
 

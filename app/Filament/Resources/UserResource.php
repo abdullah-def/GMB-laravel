@@ -102,6 +102,11 @@ class UserResource extends Resource
         return 2;
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     // public static function canViewAny(): bool
     // {
     //     return auth()->user()->role  == User::ROLE_ADMIN;

@@ -26,19 +26,19 @@ class MainApi extends Controller
                 $statu = 'active';
             }
             else {
-                $date_now = date("Y-m-d");
-                if ($user->plan->ended_at){
-                    if ($date_now < $user->plan->ended_at){
-
-                        $statu = 'active';
-                    }
-                    else{
-                        $statu = $status->status;
-                    }
-
-                }
+                $statu = $status->status;
 
             }
+        }
+
+        $date_now = date("Y-m-d");
+        if ($user->plan?->ended_at){
+            if ($date_now < $user->plan->ended_at){
+
+                $statu = 'active';
+            }
+            
+
         }
 
         return response()->json([
@@ -79,7 +79,7 @@ class MainApi extends Controller
         }
 
         $date_now = date("Y-m-d");
-        if ($user->plan->ended_at){
+        if ($user->plan?->ended_at){
             if ($date_now < $user->plan->ended_at){
 
                 $statu = 'active';

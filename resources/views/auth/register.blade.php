@@ -6,7 +6,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
 
 
@@ -111,6 +111,11 @@
             <div class="mb-[22px]">
             <input type="password" placeholder="Confirm Password" name="password_confirmation" required autocomplete="new-password"
             class="border-stroke  bg-transparent w-full rounded-md border py-3 px-5 text-base text-body-color  placeholder:text-dark-6 outline-none transition focus:border-primary  focus-visible:shadow-none " />
+            </div>
+
+            <div class="mb-[22px]" style="text-align: left;">
+              <input class="form-check-input" id="termsService" type="checkbox" required>
+              <label class="form-label fs-9 text-transform-none" for="termsService">I accept the <a style="color: blue" href="{{route('terms')}}">terms </a>and <a style="color: blue" href="{{route('policy')}}">privacy policy</a></label>
             </div>
 
             <!-- submit -->

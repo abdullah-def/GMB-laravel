@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('stripe_plan');
-            $table->integer('price');
+            $table->float('price');
             $table->string('period');
             $table->string('description');
-            $table->integer('one');
-            $table->integer('total_befor');
+            $table->float('one');
+            $table->float('total_befor');
             $table->string('discount');
             $table->integer('response_num');
 

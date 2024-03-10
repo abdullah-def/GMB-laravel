@@ -49,7 +49,7 @@
     
     <main style="--phoenix-scroll-margin-top: 1.2rem;">
 
-        @include('components.guest.nav')
+        @include('components.guest.navs')
         @include('components.guest.search')
 
         @yield('content')

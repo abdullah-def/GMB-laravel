@@ -185,5 +185,20 @@ class HomeController extends Controller
         return view('guest.plans', $data);
     }
 
+    public function demo(Request $request)
+    {
+        // 
+        $posts_footer = Post::published()
+            ->latest('published_at')
+            ->featured()
+            ->with('author', 'categories')->limit(2)->get();
+
+        $data = [
+                'title' => config('app.name') . ' - Demo',
+                'posts_footer' => $posts_footer,
+        ];
+
+        return view('guest.demo', $data);
+    }
    
 }

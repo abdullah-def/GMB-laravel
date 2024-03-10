@@ -18,7 +18,7 @@
                         <div class="row justify-content-between">
                         
                         <div class="col-lg-7 col-xl-7 mb-5" style=" display: flex; align-items: center; justify-content: center; ">
-                            <form id="payment-form" action="{{ route('subscription.create') }}" method="POST">
+                            <form id="payment-form" action="{{ route('subscription.create') }}" method="POST" style=" width: 100%;">
                                 @csrf
 						        <input type="hidden" name="plan" id="plan" value="{{ $plan->id }}">
                                 
@@ -50,13 +50,15 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" id="gridCheck" type="checkbox" checked>
-                                            <label class="form-check-label text-black fs-0" for="gridCheck">Save As Default Payment Method</label>
+                                            <input class="form-check-input" id="gridCheck" type="checkbox" checked name="autorenew">
+                                            <label class="form-check-label text-black fs-0" for="gridCheck">Automatic Renewal</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-2 mb-5 mb-lg-0">
-                                    <div class=" d-grid"><button class="btn btn-primary" type="submit" id="card-button" data-secret="{{ $intent->client_secret }}">Pay ${{$plan->price}}</button></div>
+                                    
+                                    
+                                    <div class=" d-grid"><button class="btn btn-primary" type="submit" id="card-button" data-secret="{{ $intent->client_secret }}">Pay @if(!auth()->user()->trialing) $0 @else ${{$plan->price}} @endif</button></div>
                                 </div>
                             </form>
                         </div>
@@ -73,29 +75,56 @@
 
                                             <div class="col-8 col-md-7 col-lg-8">
                                                 <div class="d-flex align-items-center">
-                                                    <h5 class="fw-semi-bold text-1000 lh-base">{{$plan->name}}</h5>
+                                                    <h5 class="fw-semi-bold text-1000 lh-base">{{$plan->name}} 
+                                                        @if(!auth()->user()->trialing)
+                                                            <span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs-9 "> <span class="badge-label">Free trial</span></span>
+                                                        @endif
+                                                    </h5>
                                                 </div>
                                             </div>
 
                                             <div class="col-2 col-md-3 col-lg-2">
+                                                
                                                 <h6 class="fs--2 mb-0">{{$plan->period}}</h6>
                                             </div>
 
                                             <div class="col-2 ps-0">
-                                                <h5 class="mb-0 fw-semi-bold text-end">${{$plan->one}}</h5>
+                                                @if(!auth()->user()->trialing)
+                                                    <h5 class="mb-0 fw-semi-bold text-end">$0</h5>
+                                                @else
+                                                    <h5 class="mb-0 fw-semi-bold text-end">${{$plan->one}}</h5>
+                                                @endif
+                                                
                                             </div>
 
                                         </div>
-
+                                       
+                                        
                                         @php
                                         {{$array = preg_split ("/\,/", $plan->description);  }}
                                         @endphp
                                         @foreach ($array as $des)
+                                        
+                                        @if ($loop->first)
+
+                                        @endif
 
                                         <div class="row align-items-center mb-1 g-3">
                                             <div class="col-8 col-md-7 col-lg-8">
                                                 <div class="d-flex align-items-center">
+                                                    @if ($loop->first)
+
+                                                        @if(!auth()->user()->trialing)
+                                                            <h6 class="ms-2 fw-semi-bold text-1000 lh-base">15 AI Assisted Responses</h6>
+                                                        @else
+                                                            <h6 class="ms-2 fw-semi-bold text-1000 lh-base">{{$des}}</h6>
+                                                        @endif
+                                                    
+
+                                                    @else
                                                     <h6 class="ms-2 fw-semi-bold text-1000 lh-base">{{$des}}</h6>
+                                                    @endif
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -110,22 +139,42 @@
                                 <div class="border-dashed border-bottom mt-4">
                                     <div class="d-flex justify-content-between mb-2">
                                         <h5 class="text-900 fw-semi-bold">Items subtotal: </h5>
-                                        <h5 class="text-900 fw-semi-bold">${{$plan->total_befor}}</h5>
+                                        @if(!auth()->user()->trialing)
+                                            <h5 class="text-900 fw-semi-bold">$0</h5>
+                                        @else
+                                            <h5 class="text-900 fw-semi-bold">${{$plan->total_befor}}</h5>
+                                        @endif
+                                        
                                     </div>
                                     <div class="d-flex justify-content-between mb-2">
                                         <h5 class="text-900 fw-semi-bold">Discount: </h5>
-                                        <h5 class="text-900 fw-semi-bol">{{$plan->discount}}</h5>
+                                        @if(!auth()->user()->trialing)
+                                            <h5 class="text-900 fw-semi-bol">100%</h5>
+                                        @else
+                                            <h5 class="text-900 fw-semi-bol">{{$plan->discount}}</h5>
+                                        @endif
+                                        
                                     </div>
                                 
                                     <div class="d-flex justify-content-between mb-2">
                                         <h5 class="text-900 fw-semi-bold">Subtotal </h5>
-                                        <h5 class="text-900 fw-semi-bold">${{$plan->price}}</h5>
+                                        @if(!auth()->user()->trialing)
+                                            <h5 class="text-900 fw-semi-bold">$0</h5>
+                                        @else
+                                            <h5 class="text-900 fw-semi-bold">${{$plan->price}}</h5>
+                                        @endif
+                                        
                                     </div>
                                     
                                 </div>
                                 <div class="d-flex justify-content-between border-dashed-y pt-3">
                                 <h4 class="mb-0">Total :</h4>
-                                <h4 class="mb-0">${{$plan->price}}</h4>
+                                @if(!auth()->user()->trialing)
+                                    <h4 class="mb-0">$0</h4>
+                                @else
+                                    <h4 class="mb-0">${{$plan->price}}</h4>
+                                @endif
+                                
                                 </div>
                             </div>
                             </div>
@@ -174,6 +223,7 @@
         color: #fa755a;
     }
 </style>
+
 <script src="https://js.stripe.com/v3/"></script>
 <script>
 
@@ -214,7 +264,7 @@
             displayError.textContent = '';
           }
     });
-    console.log(1);
+
 
 	const cardHolderName = document.getElementById('card-holder-name')
     const cardHolderEmail = document.getElementById('card-holder-email')
@@ -248,10 +298,6 @@
 	        token.setAttribute('name', 'token')
 	        token.setAttribute('value', setupIntent.payment_method)
             form.appendChild(token)
-
-            
-
-
 	        form.submit();
 
 	    }

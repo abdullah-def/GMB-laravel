@@ -5,7 +5,12 @@
 @include('components.user.left_nav')
 @include('components.user.nav')
 
+@if (!auth()->user()->settings->business_name)
+            
+  @include('components.user.required')
 
+@endif
+<style type="text/css"> .notify{ z-index: 1000000; margin-top: 30px; } </style>
 
 
 <div class="content">
@@ -14,67 +19,8 @@
         <div class="g-4">
           <div class="row mt-5">
             
-   
-            <div class="col-12 col-xl-7 col-xxl-6 mb-5">
-              <div class="mb-8">
-                <h2 class="mb-2">Responses Analytics</h2>
-                <h5 class="text-700 fw-semi-bold">Business name: </h5>
-              </div>
 
-              <div class="col-12 col-md-6">
-                  <div class="card h-100">
-                      <div class="d-flex justify-content-between">
-                          <div class="row ms-2" style="align-content: center;">
-                              <h2>4.0</h2>
-                              <p class="mb-0">Feedback Rating</p>
-                              <h2 class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
-                                  <!-- <span class='me-1 fs--2'>💬</span>Mentioned you in a comment.<span class="ms-2 text-400 fw-bold fs--2">10m</span> -->
-                                  <span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa-regular fa-star text-warning-300"></span>
-                              </h2>
-                          </div>
-                          <div class="bg-star">
-                              <img src="/assets/img/app/star.svg" alt="">
-
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row align-items-center g-4 mt-0">
-                <div class="col-12 col-md-auto">
-                  <div class="d-flex align-items-center">
-                      <span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span class="fa-solid fa-square fa-stack-2x text-success-300" data-fa-transform="down-4 rotate--10 left-4"></span><span class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100" data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-star text-success " data-fa-transform="shrink-2 up-8 right-6"></span></span>
-                    <div class="ms-3">
-                      <h4 class="mb-0">57 Reviews</h4>
-                      <p class="text-800 fs--1 mb-0">Feedback Requests</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-auto">
-                  <div class="d-flex align-items-center">
-
-                      <span class="fa-stack" style="min-height: 46px;min-width: 46px;">
-                          <span class="fa-solid fa-square fa-stack-2x text-warning-300" data-fa-transform="down-4 rotate--10 left-4"></span>
-                          <span class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100" data-fa-transform="up-4 right-3 grow-2"></span>
-                          <span class="fa-stack-1x fa-solid fa-paper-plane text-warning " data-fa-transform="shrink-2 up-8 right-6"></span>
-                      </span>
-
-                    <div class="ms-3">
-                      <h4 class="mb-0">50 Reviews</h4>
-                      <p class="text-800 fs--1 mb-0">Totla Responses</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-auto">
-                  <div class="d-flex align-items-center"><span class="fa-stack" style="min-height: 46px;min-width: 46px;"><span class="fa-solid fa-square fa-stack-2x text-danger-300" data-fa-transform="down-4 rotate--10 left-4"></span><span class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100" data-fa-transform="up-4 right-3 grow-2"></span><span class="fa-stack-1x fa-solid fa-xmark text-danger " data-fa-transform="shrink-2 up-8 right-6"></span></span>
-                    <div class="ms-3">
-                      <h4 class="mb-0">7 Reviews</h4>
-                      <p class="text-800 fs--1 mb-0">On Hold</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
         
 
             <div class="col-12 col-xl-7 col-xxl-6">
@@ -96,13 +42,170 @@
 
               <div class="reviews-chart" id="reviews-chart" style="min-height:320px;width:100%"></div>
             </div>
+
+
+            <div class="col-12 col-xl-7 col-xxl-6 mb-5">
+              {{-- <div class="mb-8">
+                <h3 class="mb-2">Subscription Information</h3>
+                <p class="text-700 lh-sm mb-0">Take control of your membership</p>
+              </div> --}}
+              
+              <style>
+                .pulse{
+                  position: relative;
+                  width: 15px;
+                  height: 15px;
+                  
+                  background: #22c55e;
+                  border-radius: 50%;
+                }
+
+                .pulse span {
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background: inherit;
+                  border-radius: inherit;
+                  opacity: .8;
+                  animation: pulseAnimate 4s ease-out infinite;
+                  animation-delay: calc(1s * var(--i));
+                }
+
+                .pulse-y {
+                  position: relative;
+                  width: 15px;
+                  height: 15px;
+                  
+                  background: #c7c7c7;
+                  border-radius: 50%;
+
+                }
+                .pulse-y span {
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background: inherit;
+                  border-radius: inherit;
+                  opacity: .8;
+                  animation: pulseAnimate 4s ease-out infinite;
+                  animation-delay: calc(1s * var(--i));
+                }
+
+                @keyframes pulseAnimate {
+                  100% {
+                    transform: scale(2);
+                    opacity: 0;
+                  }
+                }
+
+              </style>
+              
+              <div class="col-12 " style="height: 100%;">
+                <div class="card border border-300 h-100 w-100 overflow-hidden">
+                  <div class="bg-holder d-block bg-card" style="background-image:url(../assets/img/spot-illustrations/32.png);background-position: top right;"></div>
+                  <!--/.bg-holder-->
+                  <div class="d-dark-none">
+                    <div class="bg-holder d-none d-sm-block d-xl-none d-xxl-block bg-card" style="background-image:url(../assets/img/spot-illustrations/21.png);background-position: bottom right; background-size: auto;"></div>
+                    <!--/.bg-holder-->
+                  </div>
+                  <div class="d-light-none">
+                    <div class="bg-holder d-none d-sm-block d-xl-none d-xxl-block bg-card" style="background-image:url(../assets/img/spot-illustrations/dark_21.png);background-position: bottom right; background-size: auto;"></div>
+                    <!--/.bg-holder-->
+                  </div>
+
+                  <div class="card-body px-5 position-relative">
+                    {{-- <div class="badge badge-phoenix fs--2 badge-phoenix-warning mb-4"><span class="fw-bold">Coming soon</span><span class="fa-solid fa-award ms-1"></span></div> --}}
+                    <h3 class="mb-2">Subscription Information</h3>
+                    <p class="text-700 lh-sm mb-0">Take control of your membership</p>
+                   
+                    @if (auth()->user()->plan->auto_automation)
+                      
+
+                      <div class="border-0 py-0 mt-3" style="display: flex;text-align: left;height: 35px;align-items: center;">
+                        
+                        <span class="me-3" style="font-weight: bold;">Auto Response Status</span>
+                        <div class=" pulse">
+                          <span style="--i:0"></span>
+                          <span style="--i:1"></span>
+                          <span style="--i:2"></span>
+                          <span style="--i:3"></span>
+                        </div>
+                        
+                      </div>
+                      
+                        
+                    @else
+                      <div class="border-0 py-0 mt-3" style="display: flex;text-align: left;height: 35px;align-items: center;">
+                        
+                        <span class="me-3" style="font-weight: bold;">Auto Response Status</span>
+                        <div class=" pulse-y">
+                          <span style="--i:0"></span>
+                          <span style="--i:1"></span>
+                          <span style="--i:2"></span>
+                          <span style="--i:3"></span>
+                        </div>
+                        
+                      </div>
+                    @endif
+
+                    <div class="border-0 py-0 mt-1" style="display: flex;text-align: left;align-items: center;">
+                        
+                      <span class="me-2" style="font-weight: bold;">Remaining Balance: </span><span>{{auth()->user()->plan->responses}} Responses</span>
+                      
+                      
+                    </div>
+
+                    <div class="border-0 py-0 mt-2" style="display: flex;text-align: left;align-items: center;">
+                        
+                      <span class="me-2" style="font-weight: bold;">Subscription Expiration: </span><span>{{auth()->user()->plan->ended_at}}</span>
+                      
+                      
+                    </div>
+
+                    <div class="border-0 py-0 mt-2" style="display: flex;text-align: left;align-items: center;">
+                        
+                      <span class="me-2" style="font-weight: bold;">Your Plan: </span><span>{{auth()->user()->plan->plan}}</span>
+                      
+                      
+                    </div>
+
+                    <div class="border-0 py-0 mt-2" style="display: flex;text-align: left;align-items: center;">
+                        
+                      <span class="me-2" style="font-weight: bold;">Automatic Renewal Status: </span><span>@if($auto_renew) inactive @else Active @endif</span>
+                      
+                      
+                    </div>
+
+                    <div class="border-0 py-0 mt-5" style="display: flex;text-align: left;align-items: flex-start;flex-direction: row;">
+                        
+                      <a href="{{route('settingssubscription')}}" class="btn btn-primary me-2" type="button" style=" max-width: 370px; ">Subscription Management</a>
+                      <button  class="btn btn-primary " type="button" onclick="showExtra()" style=" max-width: 370px; ">Add Extra Credit</button>
+                      
+                      
+                    </div>
+
+                    
+                   
+                  </div>
+                  @include('components.user.extra')
+
+
+
+
+                  {{-- <div class="card-footer border-0 py-0 px-5 z-index-1">
+                    <div class="col-12 col-md-auto flex-md-grow-1"></div>
+                  </div> --}}
+                </div>
+              </div>
+
+            </div>
           </div>
 
         
         </div>
     </div>
 
-    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-t border-300">
+    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-t border-300" style="  ">
       <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}'>
         <div class="row align-items-end justify-content-between pb-5 g-3">
           <div class="col-auto">
@@ -119,8 +222,23 @@
           </div>
         </div>
 
-        @if (empty($response) or !$response)
-          <p>There are no notifications yet</p>
+        @if (count($response) == 0) 
+          <div>
+            <div class="fi-ta-empty-state px-6 py-12">
+                <div class="fi-ta-empty-state-content mx-auto grid max-w-lg justify-items-center text-center" style=" display: flex; flex-direction: column; align-content: center; align-items: center; ">
+                    <div class="fi-ta-empty-state-icon-ctn mb-4 rounded-full bg-gray-100 p-3 dark:bg-gray-500/20" style=" background-color:var(--phoenix-gray-500) ;width: 54px;">
+                        <svg class="fi-ta-empty-state-icon h-6 w-6 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+                        </svg>        
+                      </div>
+            
+                    <h4 class="fi-ta-empty-state-heading text-base font-semibold leading-6 text-gray-950 dark:text-white">
+                      No responses
+                    </h4>
+            
+                </div>
+            </div>
+          </div>
         @else
             
        
@@ -244,6 +362,8 @@
             </tbody>
           </table>
         </div>
+
+
         <style>
           .disabled  span{
               background-color: transparent !important;

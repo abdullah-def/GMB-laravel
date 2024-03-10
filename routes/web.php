@@ -26,6 +26,7 @@ Route::get('/terms-of-service', [HomeController::class, 'terms'])->name('terms')
 Route::get('/privacy-policy', [HomeController::class, 'policy'])->name('policy');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/plans', [HomeController::class, 'plans'])->name('plans');
+Route::get('/demo', [HomeController::class, 'demo'])->name('demo');
 
 
 // Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');

@@ -6,7 +6,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
 
 
@@ -173,9 +173,7 @@
                 These Terms are effective as of December 8, 2023.
               </p>
 
-              <p class="wow fadeInUp mb-8 text-base text-body-color " data-wow-delay=".1s">
-                <strong>Please note that this is a sample Terms of Service page and may not be suitable for your specific needs.</strong> You should consult with a lawyer to ensure that your Terms of Service comply with all applicable laws and regulations.<br>
-              </p>
+
               
             </div>
           </div>

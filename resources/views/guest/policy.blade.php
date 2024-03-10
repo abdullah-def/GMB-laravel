@@ -6,7 +6,7 @@
 
 
 @section('content')
-@include('components.guest.nav')
+@include('components.guest.navs')
 
 
 
@@ -159,9 +159,7 @@
               </p>
               
 
-              <p class="wow fadeInUp mb-8 text-base text-body-color " data-wow-delay=".1s">
-                <strong>Please note that this is a sample Privacy Policy and may not be suitable for your specific needs.</strong>  You should consult with a lawyer to ensure that your Privacy Policy complies with all applicable laws and regulations.<br>
-              </p>
+             
               
             </div>
           </div>
