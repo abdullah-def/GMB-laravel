@@ -61,7 +61,7 @@ class ChatGpt extends Controller
         }
 
         if($this->same_language){
-            $this->assistant .= "Response language: Respond in the same language as the customer" . '.';
+            $this->assistant .= "Reply in: Respond in the same language as the customer" . '.';
         }else{
             $lang =[
                 'Albanian, Albania',
@@ -169,7 +169,7 @@ class ChatGpt extends Controller
                         [
                             
                             "role" => "system",
-                            "content" => 'This is a customer review. I want you to respond to this review briefly and professionally in our name. Attached is the review you should respond to, the number of stars the customer left in the review (out of five stars max), the name or username of the customer, our business name and some information to help you.'
+                            "content" => 'reply to this customer review, copy the style of Steve Jobs without mentioning steve jobs , use less than 500 words if possible using our business name. if the customer have an issue help rectify the issue, If you sign the message, do it in our business name. Attached is the review you should respond to, the number of stars the customer left in the review (out of five stars max), the name or username of the customer, our business name and some information to help you. Respond in the language that is indicated by "Reply in"'
                         ],
                         [
                             "role" => "assistant",

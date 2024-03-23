@@ -72,7 +72,7 @@ class PlanController extends Controller
         if (!$request->user()->trialing){
             
             $subscription = $request->user()->newSubscription($request->plan, $plan->stripe_plan)
-            ->trialUntil(now()->addMinutes(10))->create($request->token);
+            ->trialUntil(now()->addMonth())->create($request->token);
             $response = 15;
         }
         

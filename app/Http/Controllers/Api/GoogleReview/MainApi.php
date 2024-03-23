@@ -126,27 +126,29 @@ class MainApi extends Controller
         $user->plan->save();
         }
 
-        // notification 
-        $data = [
-            // 'business_name' => $this->data['business_name'],
-            'stars' => $stars,
-            'name' => $name,
-            'review' => $review,
-            // 'status' => $this->data['status'],
-            'time' => Carbon\Carbon::now(),
-        ];
-        $user->notify(new ReviewNotification($data));
+        // notification
+        if($response != "false"){
+            $data = [
+                // 'business_name' => $this->data['business_name'],
+                'stars' => $stars,
+                'name' => $name,
+                'review' => $review,
+                // 'status' => $this->data['status'],
+                'time' => Carbon\Carbon::now(),
+            ];
+            $user->notify(new ReviewNotification($data));
 
-        // insert review 
-        $user->reviewResponse()->create([
-            'review' => $review,
-            'name' => $name,
-            'avatar' => $avatar,
-            'date_review' => $date,
-            'stars' => $stars,
-            'response' => $response,
-            'date_response' => Carbon\Carbon::now(),
-        ]);
+            // insert review 
+            $user->reviewResponse()->create([   
+                'review' => $review,
+                'name' => $name,
+                'avatar' => $avatar,
+                'date_review' => $date,
+                'stars' => $stars,
+                'response' => $response,
+                'date_response' => Carbon\Carbon::now(),
+            ]);
+        }
         // $user->reviewResponse->save();
 
         return response()->json([

@@ -8,7 +8,9 @@
         <p class=" lh-sm mb-0 mb-4" style="max-width: 500px;">This balance will be valid until the subscription end date.</p>
         <div class="row g-7 ">
 
-            <div class="col-12 col-sm-6 col-xxl-4"><img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/13.png" alt="" width="120" height="96"><img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_13.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
+            <div class="col-12 col-sm-6 col-xxl-4">
+              <img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/13.png" alt="" width="120" height="96"  style="width: 120px; height: 96px;">
+              <img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_13.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
               <div class="mb-sm-5 pricing-column-title-box">
                 <h3 class="mb-2">Starter</h3>
                 <p class="text-800 mb-0 pe-3">Add 10 responses extra</p>
@@ -27,7 +29,8 @@
 
             </div>
 
-            <div class="col-12 col-sm-6 col-xxl-4"><img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/14.png" alt="" width="120" height="96"><img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_14.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
+            <div class="col-12 col-sm-6 col-xxl-4"><img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/14.png" alt="" width="120" height="96"  style="width: 120px; height: 96px;">
+              <img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_14.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
               <div class="mb-sm-5 pricing-column-title-box">
                 <h3 class="mb-2">Standard</h3>
                 <p class="text-800 mb-0 pe-3">Add 40 responses extra</p>
@@ -46,7 +49,8 @@
               </form>
             </div>
 
-            <div class="col-12 col-sm-6 col-xxl-4"><img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/15.png" alt="" width="120" height="96"><img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_15.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
+            <div class="col-12 col-sm-6 col-xxl-4"><img class="mb-4 d-dark-none" src="../../assets/img/spot-illustrations/15.png" alt="" width="120" height="96"  style="width: 120px; height: 96px;">
+              <img class="mb-4 d-light-none" src="../../assets/img/spot-illustrations/dark_15.png" alt="" width="120" height="96" style="width: 120px; height: 96px;">
               <div class="mb-sm-5 pricing-column-title-box">
                 <h3 class="mb-2">Business</h3>
                 <p class="text-800 mb-0 pe-3">Add 100 responses extra</p>
